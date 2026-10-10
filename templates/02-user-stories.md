@@ -1,6 +1,6 @@
 # User Stories: Hệ thống quản lý khoá học trực tuyến (LMS)
 
-> Phiên bản: 0.1 (Draft) | Ngày: 09/10/2026 | Nguồn: `01-prd.md` (v0.1)
+> Phiên bản: 0.2 (Draft) | Ngày: 09/10/2026 | Nguồn: `01-prd.md` (v0.2)
 > Module auth đã có tài liệu riêng (`auth.md`); mã story E1 dưới đây **giữ nguyên** US-A01 đến US-A10 để khớp.
 
 ---
@@ -9,11 +9,11 @@
 
 **Mã story:** `US-<epic><số>`: A = Auth, C = Course, E = Enrollment, P = Progress, S = assignment & Score.
 
-**Ưu tiên:** kế thừa MoSCoW từ PRD. Story nào mình đề xuất đổi ưu tiên được gắn **[ĐỀ XUẤT HOÃN]** và chưa tự ý đổi; bạn cần xác nhận rồi mới cập nhật PRD.
+**Ưu tiên:** kế thừa MoSCoW từ PRD (v0.2). Ba story gắn **[PHASE 2]** (C06, S04, E06) đã được chốt chuyển ra khỏi Phase 1 ngày 09/10/2026 và PRD đã cập nhật tương ứng.
 
 **Nhãn trạng thái:**
 - **[CHỜ QUYẾT ĐỊNH #n]**: story phụ thuộc câu hỏi mở số n trong PRD; dùng **giả định mặc định** ghi trong mục 6 để vẫn làm được nếu chưa chốt.
-- **[ĐỀ XUẤT HOÃN]**: đề xuất chuyển ra khỏi Phase 1 để vừa sức chứa (xem mục 4).
+- **[PHASE 2]**: đã chốt chuyển ra khỏi Phase 1 để vừa sức chứa (xem mục 4); chưa xếp vào đợt nào.
 
 **Điểm ước lượng:** 1 / 2 / 3 / 5 (story hơn 5 điểm phải tách). **1 điểm ≈ 1,5 giờ làm việc** gồm backend, frontend và test **[GIẢ ĐỊNH, hiệu chỉnh lại sau đợt đầu tiên]**.
 
@@ -37,20 +37,20 @@
 | Epic | Nhóm FR | Story | Must (điểm) | Should/Could (điểm) |
 |---|---|---|---|---|
 | E1 Tài khoản & phân quyền | FR-AUTH | 10 | 8 story / 16 | A05 (2), A10 (3) |
-| E2 Khoá học | FR-COURSE | 9 | 8 story / 21 | C09 (3) |
-| E3 Đăng ký học | FR-ENROLL | 7 | 6 story / 13 | E07 (1) |
+| E2 Khoá học | FR-COURSE | 9 | 7 story / 18 | C09 (3); Phase 2: C06 (3) |
+| E3 Đăng ký học | FR-ENROLL | 7 | 5 story / 11 | E07 (1); Phase 2: E06 (2) |
 | E4 Học tập & tiến độ | FR-PROGRESS | 3 | 3 story / 8 | |
-| E5 Bài tập & điểm | FR-ASSIGN | 12 | 9 story / 22 | S11 (3), S10 (3), S12 (2) |
-| **Tổng** | | **41** | **34 story / 80 điểm** | 17 điểm |
+| E5 Bài tập & điểm | FR-ASSIGN | 12 | 8 story / 19 | S11 (3), S10 (3), S12 (2); Phase 2: S04 (3) |
+| **Tổng** | | **41** | **31 story / 72 điểm** | 25 điểm (trong đó 8 điểm đã chốt sang Phase 2) |
 
 ### Bản đồ hành trình (story mapping)
 
 ```
 Tạo TK GV ─► Dựng khoá ─────────► Đăng ký học ─► Duyệt ─► Học ──────► Nộp bài ──► Chấm điểm ──► Xuất điểm
    A07       C01 C02 C04 C05 C03     E01          E02      C07 C08      S02 S03     S06 S07       S09
-             (C06 hoãn)              E04          E03      P01 P02      S05         S08
-                                                  E05      P03          (S04 hoãn)
-Nền chung: A01 A02 A03 A04 (đăng ký/đăng nhập/phiên) | A06 A08 A09 (quản trị) | Should: A05 C09 S11
+             (C06: P2)              E04          E03      P01 P02      S05         S08
+                                                  E05      P03          (S04: P2)
+Nền chung: A01 A02 A03 A04 (đăng ký/đăng nhập/phiên) | A06 A08 A09 (quản trị) | Should: A05 C09 S11 | P2 = Phase 2
 ```
 
 ---
@@ -78,6 +78,7 @@ Với vai trò **người dùng đã đăng nhập**, tôi muốn **phiên tự 
 - Phiên hết hạn ngắn thì tự gia hạn mà tôi không phải đăng nhập lại
 - Mỗi mã gia hạn chỉ dùng được một lần; dùng lại mã cũ thì mọi phiên của tài khoản đó bị thu hồi
 - Mã gia hạn hết hạn (7 ngày) hoặc đã thu hồi thì yêu cầu đăng nhập lại
+- Tải lại trang thì phiên được khôi phục nếu chưa hết hạn
 
 ### US-A04: Đăng xuất (FR-AUTH-02, Must, 1 điểm)
 Với vai trò **người dùng đã đăng nhập**, tôi muốn **đăng xuất** để **kết thúc phiên an toàn**.
@@ -121,13 +122,13 @@ Với vai trò **ADMIN**, tôi muốn **xem và chỉnh permission của từng 
 - Thay đổi có hiệu lực sau tối đa 1 phút
 - Không được gỡ quyền quản trị khỏi role ADMIN
 
-> Lưu ý: `auth.md` đang ghi US-A10 là *Should*, PRD ghi *Could*. Cần thống nhất (đề xuất theo PRD: Could).
+> Đã thống nhất: US-A10 là *Could* theo PRD; các tài liệu auth đã đồng bộ.
 
 ---
 
 ## Epic E2: Khoá học
 
-### US-C01: Tạo khoá học (FR-COURSE-01, Must, 3 điểm) *(giả định #1: một khoá = một đợt học)*
+### US-C01: Tạo khoá học (FR-COURSE-01, Must, 3 điểm) *(đã chốt, ADR-002: một khoá = một đợt học)*
 Với vai trò **giảng viên**, tôi muốn **tạo khoá học mới** để **bắt đầu dựng nội dung cho đợt học**.
 - Nhập tên (bắt buộc), mô tả, ngày bắt đầu, ngày kết thúc dự kiến, sĩ số tối đa
 - Thiếu tên thì báo lỗi; ngày kết thúc không được trước ngày bắt đầu; sĩ số là số nguyên dương
@@ -162,12 +163,12 @@ Với vai trò **giảng viên**, tôi muốn **tạo bài học gồm nội dun
 - Sửa, xoá, đổi thứ tự bài học trong chương và giữa các chương
 - Nội dung chứa mã script không được thực thi khi hiển thị cho học viên
 
-### US-C06: Đính kèm tài liệu vào bài học (FR-COURSE-03, Must, 3 điểm) **[ĐỀ XUẤT HOÃN]**
+### US-C06: Đính kèm tài liệu vào bài học (FR-COURSE-06, **Should**, 3 điểm) **[PHASE 2]**
 Với vai trò **giảng viên**, tôi muốn **đính kèm tệp vào bài học** để **học viên tải slide, bài mẫu**.
 - Nhận pdf, zip, png, jpg, md, txt; tối đa 10 MB mỗi tệp; sai loại hoặc quá lớn thì báo lỗi rõ
 - Học viên đã được duyệt của khoá tải được; người ngoài khoá không tải được
 - Xoá được tài liệu khỏi bài học
-> Lý do đề xuất hoãn: trong Phase 1 giảng viên có thể dán liên kết Drive vào nội dung bài học (đã làm được ở US-C05); bỏ tải tệp lên sẽ tránh được phần hạ tầng lưu tệp và bảo mật tệp.
+> Đã chốt chuyển Phase 2 (09/10/2026). Phase 1: giảng viên dán liên kết Drive vào nội dung bài học (US-C05), nên chưa cần hạ tầng lưu tệp.
 
 ### US-C07: Xem và tìm khoá đã công bố (FR-COURSE-04, Must, 2 điểm)
 Với vai trò **học viên**, tôi muốn **xem và tìm các khoá đang mở** để **chọn khoá phù hợp để đăng ký**.
@@ -179,11 +180,11 @@ Với vai trò **học viên**, tôi muốn **xem và tìm các khoá đang mở
 ### US-C08: Xem nội dung bài học của khoá đã được duyệt (FR-COURSE-03, Must, 3 điểm)
 Với vai trò **học viên**, tôi muốn **học các bài của khoá mình đã được duyệt** để **theo kịp chương trình**.
 - Học viên *Đã duyệt* xem được toàn bộ chương và bài học theo đúng thứ tự, có nút bài trước/bài sau
-- Trạng thái *Chờ duyệt*, *Bị từ chối*, *Đã gỡ*, hoặc chưa đăng ký thì không xem được nội dung và có thông báo rõ
+- Trạng thái *Chờ duyệt*, *Bị từ chối*, hoặc chưa đăng ký thì không xem được nội dung và có thông báo rõ
 - Khoá *Nháp* không xem được; khoá *Đã kết thúc* vẫn xem được
 - Không đoán được nội dung bài của khoá khác bằng cách đổi đường dẫn
 
-### US-C09: Nhân bản khoá học (FR-COURSE-05, **Should**, 3 điểm) **[CHỜ QUYẾT ĐỊNH #1]**
+### US-C09: Nhân bản khoá học (FR-COURSE-05, **Should**, 3 điểm) *(đã chốt #1, ADR-002)*
 Với vai trò **giảng viên**, tôi muốn **nhân bản một khoá có sẵn** để **dựng khoá mới trong vài phút** (mục tiêu G3).
 - Tạo bản sao tên "<tên gốc> (bản sao)" ở trạng thái *Nháp*
 - Sao chép chương, bài học, bài tập (đề, thang điểm); **không** sao chép học viên, bài nộp, điểm, tiến độ
@@ -199,6 +200,8 @@ Với vai trò **học viên**, tôi muốn **gửi yêu cầu đăng ký một 
 - Đã đăng nhập, bấm "Đăng ký" ở khoá đã công bố thì thấy khoá ở trạng thái *Chờ duyệt* trong "Khoá của tôi"
 - Khoá chưa công bố hoặc đã kết thúc thì không đăng ký được
 - Đã đăng ký khoá này rồi thì báo rõ, không tạo bản ghi thứ hai
+- Yêu cầu từng *Bị từ chối* thì học viên không tự đăng ký lại; thông báo nêu rõ cần liên hệ giảng viên
+- Giảng viên không đăng ký được vào khoá do chính mình dạy
 - Chưa đăng nhập thì được yêu cầu đăng nhập trước
 
 ### US-E02: Duyệt hoặc từ chối yêu cầu đăng ký (FR-ENROLL-02, Must, 3 điểm) *(giả định #3: chỉ giảng viên tạo khoá và ADMIN)*
@@ -207,11 +210,12 @@ Với vai trò **giảng viên**, tôi muốn **duyệt hoặc từ chối yêu 
 - Duyệt thì học viên vào được nội dung khoá; từ chối thì học viên thấy trạng thái *Bị từ chối*
 - Chỉ duyệt được yêu cầu của khoá do mình phụ trách (ADMIN duyệt được mọi khoá)
 - Khoá đã đủ sĩ số tối đa thì không duyệt thêm và có thông báo rõ
+- Yêu cầu *Bị từ chối* có thể được duyệt lại (chuyển sang *Đã duyệt*)
 
 ### US-E03: Thêm học viên trực tiếp vào khoá (FR-ENROLL-02, Must, 2 điểm)
 Với vai trò **giảng viên**, tôi muốn **thêm trực tiếp một học viên vào khoá** để **xử lý nhanh trường hợp đã đóng tiền mà chưa kịp đăng ký**.
 - Chọn học viên có sẵn bằng email; học viên vào khoá ngay ở trạng thái *Đã duyệt*
-- Học viên đã ở trong khoá thì không thêm trùng
+- Học viên đã *Đã duyệt* trong khoá thì báo rõ, không thêm trùng; nếu đang *Chờ duyệt* hoặc *Bị từ chối* thì chuyển sang *Đã duyệt* thay vì tạo bản ghi mới
 - Khoá đủ sĩ số thì không thêm được
 
 ### US-E04: Xem các khoá của tôi và trạng thái (FR-ENROLL-03, Must, 2 điểm)
@@ -226,12 +230,12 @@ Với vai trò **giảng viên**, tôi muốn **xem danh sách học viên trong
 - Lọc theo trạng thái, tìm theo tên hoặc email
 - Chỉ xem được khoá của mình (ADMIN xem mọi khoá)
 
-### US-E06: Gỡ học viên khỏi khoá (FR-ENROLL-04, Must, 2 điểm) **[ĐỀ XUẤT HOÃN]**
+### US-E06: Gỡ học viên khỏi khoá (FR-ENROLL-05, **Should**, 2 điểm) **[PHASE 2]**
 Với vai trò **giảng viên**, tôi muốn **gỡ một học viên khỏi khoá** để **xử lý học viên nghỉ học hoặc nhập nhầm**.
 - Gỡ xong, học viên mất quyền xem nội dung và nộp bài của khoá đó
 - Bài nộp và điểm cũ được giữ nguyên, hiển thị đánh dấu *Đã gỡ*
 - Duyệt lại được nếu gỡ nhầm
-> Lý do đề xuất hoãn: trong Phase 1 giảng viên có thể từ chối/để nguyên; ADMIN xử lý tay khi cần. Giá trị thấp so với công sức vì phải xử lý nhiều trường hợp liên quan đến tiến độ và điểm.
+> Đã chốt chuyển Phase 2 (09/10/2026). Phase 1: giảng viên từ chối/để nguyên; ADMIN xử lý tay khi cần. Cần thêm trạng thái `REMOVED` cho enrollment khi làm.
 
 ### US-E07: Tự động duyệt khoá miễn phí (FR-ENROLL-01, **Could**, 1 điểm) **[CHỜ QUYẾT ĐỊNH #2]**
 Với vai trò **giảng viên**, tôi muốn **đánh dấu khoá miễn phí để học viên được duyệt ngay** để **không phải duyệt tay từng người**.
@@ -290,14 +294,14 @@ Với vai trò **học viên**, tôi muốn **nộp bài bằng liên kết repo
 - Nhập liên kết (https) và ghi chú tuỳ chọn; liên kết sai định dạng thì báo lỗi
 - Nộp trước hạn thành công thì trạng thái thành *Đã nộp* và ghi nhận thời điểm nộp
 - Sau hạn nộp thì không nộp được và có thông báo rõ
-- Chưa được duyệt hoặc đã bị gỡ khỏi khoá thì không nộp được
+- Chưa được duyệt vào khoá thì không nộp được
 
-### US-S04: Nộp bài bằng tệp (FR-ASSIGN-02, Must, 3 điểm) **[ĐỀ XUẤT HOÃN]**
+### US-S04: Nộp bài bằng tệp (FR-ASSIGN-07, **Should**, 3 điểm) **[PHASE 2]**
 Với vai trò **học viên**, tôi muốn **nộp bài bằng tệp** để **nộp được cả bài không có repo**.
 - Nhận pdf, zip, png, jpg, md, txt; tối đa 10 MB mỗi tệp, tối đa 5 tệp mỗi lần nộp
 - Sai loại hoặc quá lớn thì báo lỗi rõ
 - Chỉ giảng viên của khoá và chính học viên đó tải được tệp
-> Lý do đề xuất hoãn: với khoá lập trình, liên kết repo (GitHub) là hình thức nộp chủ yếu; hoãn cùng US-C06 giúp bỏ hẳn phần hạ tầng lưu tệp trong Phase 1.
+> Đã chốt chuyển Phase 2 (09/10/2026). Với khoá lập trình, liên kết repo (GitHub) là hình thức nộp chủ yếu; hoãn cùng US-C06 giúp bỏ hẳn hạ tầng lưu tệp trong Phase 1.
 
 ### US-S05: Nộp lại trước hạn (FR-ASSIGN-02, Must, 1 điểm)
 Với vai trò **học viên**, tôi muốn **nộp lại bài trước hạn** để **sửa lỗi mà không phải nhờ giảng viên**.
@@ -326,10 +330,10 @@ Với vai trò **học viên**, tôi muốn **xem điểm và nhận xét của 
 - Xem được bảng điểm các bài của mình trong khoá
 - Không xem được điểm hay bài nộp của học viên khác (phải được kiểm tra bằng test)
 
-### US-S09: Xuất bảng điểm khoá (FR-ASSIGN-05, Must, 3 điểm) **[CHỜ QUYẾT ĐỊNH #4]** *(mặc định: điểm tổng = trung bình cộng)*
+### US-S09: Xuất bảng điểm khoá (FR-ASSIGN-05, Must, 3 điểm) *(đã chốt cho Phase 1: điểm tổng = trung bình cộng, ADR-003)*
 Với vai trò **giảng viên**, tôi muốn **xuất bảng điểm của khoá** để **có điểm cuối khoá trong vài phút thay vì tự tổng hợp** (mục tiêu G2).
 - Xuất tệp CSV (UTF-8 có BOM) mở đúng tiếng Việt trong Excel: mỗi học viên một dòng, mỗi bài tập một cột, thêm cột điểm tổng
-- Điểm tổng mặc định = trung bình cộng điểm các bài đã giao (quy về thang 10); bài chưa nộp tính 0
+- Điểm tổng = trung bình cộng điểm các bài **đã đến hạn hoặc đã có điểm** (quy về thang 10, làm tròn 1 chữ số thập phân); bài đã đến hạn mà chưa nộp tính 0; bài chưa đến hạn và chưa có điểm không tính
 - Chỉ gồm học viên *Đã duyệt*; ngày giờ theo `dd/mm/yyyy`
 - Chỉ xuất được khoá của mình (ADMIN xuất mọi khoá)
 > Xuất Excel (.xlsx) để sau nếu cần; CSV đủ để mở trong Excel.
@@ -358,21 +362,18 @@ Với vai trò **giảng viên**, tôi muốn **cho phép nộp trễ có trừ 
 
 PRD: khoảng 180 giờ (15 giờ/tuần × 12 tuần), chừa 30% cho lỗi phát sinh, còn **~126 giờ** dùng cho cả **khởi tạo dự án (~22 giờ)** và **tính năng**.
 
-| Phương án | Điểm Must | Giờ tính năng (×1,5) | + Setup | So với 126 giờ |
+| Phương án | Điểm Must | Giờ tính năng (×1,5) | + Setup | So với ~126 giờ |
 |---|---|---|---|---|
-| Giữ nguyên toàn bộ Must trong PRD | 80 | 120 | ~142 | **Vượt ~16 giờ** |
-| Hoãn 3 story đề xuất (C06, S04, E06) | 72 | 108 | ~130 | Vượt ~4 giờ (sát giới hạn, chấp nhận được) |
+| Trước khi hoãn (PRD v0.1) | 80 | 120 | ~142 | Vượt ~16 giờ |
+| **Đã chốt:** chuyển C06, S04, E06 sang Phase 2 (PRD v0.2) | **72** | **108** | **~130** | Vượt ~4 giờ (sát giới hạn, chấp nhận được) |
 
-**Đề xuất:** chọn phương án hoãn 3 story (tổng 8 điểm). Nếu đồng ý, cần cập nhật PRD lên v0.2:
-- FR-COURSE-03: bỏ "tài liệu đính kèm" khỏi Phase 1 (dùng liên kết trong nội dung)
-- FR-ASSIGN-02: Phase 1 chỉ nộp bằng liên kết repo/ghi chú, nộp tệp sang Phase 2
-- FR-ENROLL-04: Phase 1 chỉ xem danh sách học viên, gỡ học viên sang Phase 2
+**Đã chốt ngày 09/10/2026:** chuyển 3 story (tổng 8 điểm) sang Phase 2, PRD đã lên v0.2 (FR-COURSE-06, FR-ENROLL-05, FR-ASSIGN-07). Hệ quả: Phase 1 **không cần hạ tầng lưu tệp**.
 
 Sau đợt đầu tiên, đo lại tốc độ thực tế (điểm làm được mỗi đợt) rồi điều chỉnh hệ số 1,5 giờ/điểm.
 
 ---
 
-## 5. Thứ tự thực hiện (giả sử đã chọn phương án hoãn 3 story)
+## 5. Thứ tự thực hiện
 
 Mỗi đợt 2 tuần ≈ 30 giờ, trừ 30% dự phòng ≈ 21 giờ ≈ 14 điểm. Đợt 1 dành cho giai đoạn **Setup** (~22 giờ).
 
@@ -384,7 +385,8 @@ Mỗi đợt 2 tuần ≈ 30 giờ, trừ 30% dự phòng ≈ 21 giờ ≈ 14 đ
 | 4 | Bài học và đăng ký học | C05, C08, E01, E02, E03, E04 | 15 |
 | 5 | Tiến độ, danh sách lớp, bắt đầu bài tập | E05, P01, P02, P03, S01, S02 | 15 |
 | 6 | Nộp bài, chấm điểm, xuất điểm | S03, S05, S06, S07, S08, S09 | 14 |
-| Dự phòng | Làm nếu còn thời gian, theo thứ tự | A05, S11, C09, rồi các story Could | |
+| Dự phòng | Làm nếu còn thời gian, theo thứ tự | A05, S11, C09, rồi các story Could (E07, S10, S12, A10) | |
+| Phase 2 | Đã chốt chuyển ra khỏi Phase 1 | C06, S04, E06 | |
 
 **Lý do sắp xếp:**
 - Theo phụ thuộc: AUTH → COURSE → ENROLL → PROGRESS → ASSIGN
@@ -393,17 +395,19 @@ Mỗi đợt 2 tuần ≈ 30 giờ, trừ 30% dự phòng ≈ 21 giờ ≈ 14 đ
 
 ---
 
-## 6. Quyết định đang chờ và giả định mặc định
+## 6. Quyết định đã chốt và giả định đang dùng
 
-| # | Câu hỏi (từ PRD) | Story bị ảnh hưởng | Giả định mặc định đang dùng |
+| # | Câu hỏi (từ PRD) | Story liên quan | Trạng thái |
 |---|---|---|---|
-| 1 | Tách "khoá mẫu" và "lớp"? | C01, C09 | Một khoá = một đợt; nhân bản để mở đợt mới |
-| 2 | Khoá miễn phí tự duyệt? | E07 | Mọi đăng ký đều qua bước duyệt |
-| 3 | Quyền của trợ giảng | E02, E05, P03, S06, S07 | Chỉ giảng viên tạo khoá và ADMIN thao tác trên khoá đó |
-| 4 | Cách tính điểm cuối khoá | S09, S10 | Trung bình cộng, bài chưa nộp tính 0 |
-| 5 | Nộp trễ | S03, S12 | Khoá cứng sau hạn |
-| 6 | Một user nhiều role? | A02, A09 | Có, dùng bảng nối user-role |
-| 7 | Xoá user thật hay chỉ khoá? | A08 | Chỉ khoá |
+| 1 | Tách "khoá mẫu" và "lớp"? | C01, C09 | **Đã chốt (ADR-002):** một khoá = một đợt; nhân bản để mở đợt mới |
+| 2 | Khoá miễn phí tự duyệt? | E07 | Giả định: mọi đăng ký đều qua bước duyệt |
+| 3 | Quyền của trợ giảng | E02, E05, P03, S06, S07 | Giả định: chỉ giảng viên tạo khoá và ADMIN thao tác trên khoá đó |
+| 4 | Cách tính điểm cuối khoá | S09, S10 | **Đã chốt cho Phase 1 (ADR-003):** trung bình cộng, chỉ tính bài đã đến hạn hoặc đã có điểm; trọng số để Phase 2 (S10) |
+| 5 | Nộp trễ | S03, S12 | Giả định: khoá cứng sau hạn |
+| 6 | Một user nhiều role? | A02, A09 | Giả định đang dùng: có, bảng nối user-role |
+| 7 | Xoá user thật hay chỉ khoá? | A08 | Giả định đang dùng: chỉ khoá |
+
+**Quyết định bổ sung chốt ngày 09/10/2026 (từ giai đoạn thiết kế):** học viên bị từ chối không tự đăng ký lại, giảng viên duyệt lại được (E01, E02, E03); giảng viên không đăng ký vào khoá của chính mình (E01); bài chưa đến hạn và chưa có điểm không tính vào điểm tổng (S09).
 
 **Ghi chú về #3:** nếu muốn trợ giảng chấm bài ở khoá do giảng viên khác tạo, cần thêm cơ chế "gán người phụ trách khoá". PRD hiện chưa có FR cho việc này, nên chưa có story; nếu bạn chọn làm, bổ sung FR vào PRD trước.
 
@@ -421,36 +425,43 @@ Mỗi đợt 2 tuần ≈ 30 giờ, trừ 30% dự phòng ≈ 21 giờ ≈ 14 đ
 | FR-AUTH-06 | Could | A10 |
 | FR-COURSE-01 | Must | C01, C02, C03 |
 | FR-COURSE-02 | Must | C04, C05 |
-| FR-COURSE-03 | Must | C05, C06, C08 |
+| FR-COURSE-03 | Must | C05, C08 |
 | FR-COURSE-04 | Must | C07 |
 | FR-COURSE-05 | Should | C09 |
+| FR-COURSE-06 | Should (Phase 2) | C06 |
 | FR-ENROLL-01 | Must | E01, E07 |
 | FR-ENROLL-02 | Must | E02, E03 |
 | FR-ENROLL-03 | Must | E04 |
-| FR-ENROLL-04 | Must | E05, E06 |
+| FR-ENROLL-04 | Must | E05 |
+| FR-ENROLL-05 | Should (Phase 2) | E06 |
 | FR-PROGRESS-01 | Must | P01 |
 | FR-PROGRESS-02 | Must | P02 |
 | FR-PROGRESS-03 | Must | P03 |
 | FR-ASSIGN-01 | Must | S01 |
-| FR-ASSIGN-02 | Must | S02, S03, S04, S05, S12 |
+| FR-ASSIGN-02 | Must | S02, S03, S05, S12 |
 | FR-ASSIGN-03 | Must | S06 |
 | FR-ASSIGN-04 | Must | S07, S08 |
 | FR-ASSIGN-05 | Must | S09, S10 |
 | FR-ASSIGN-06 | Should | S11 |
+| FR-ASSIGN-07 | Should (Phase 2) | S04 |
 
 **Kiểm tra hai chiều:** mọi FR Must đều có ít nhất một story; mọi story đều trỏ về một FR.
 
 ---
 
-## 8. Cần đồng bộ với tài liệu khác
+## 8. Trạng thái đồng bộ tài liệu (09/10/2026)
 
-- `01-prd.md`: nếu chấp nhận hoãn C06, S04, E06 thì nâng lên v0.2 và ghi vào change log
-- `auth.md`, `auth-user-stories.md`, `auth-spec.md`, `auth-prd.md`: đổi mã yêu cầu `FR-01...FR-10` thành `FR-AUTH-01...FR-AUTH-06` theo bảng truy vết ở trên, và thống nhất ưu tiên của US-A10
-- Bản ví dụ epic Đăng ký học đã đưa ra trong phần hướng dẫn trước: US-E04 chỉ còn gắn FR-ENROLL-03; phần FR-ENROLL-04 (xem danh sách học viên) tách thành US-E05, US-E06
-- Mã story trong sơ đồ minh hoạ ở phần hướng dẫn trước chỉ mang tính minh hoạ; mã chính thức là mã trong tài liệu này
+| Tài liệu | Trạng thái |
+|---|---|
+| `01-prd.md` | Đã lên v0.2 (FR-COURSE-06, FR-ENROLL-05, FR-ASSIGN-07 sang Phase 2; chốt câu hỏi #1, #4) |
+| `auth.md`, `separate/auth-prd.md`, `auth-user-stories.md`, `auth-spec.md` | Đã đổi mã `FR-xx` thành `FR-AUTH-xx`, US-A10 là *Could*, refresh token ở cookie HttpOnly (ADR-006), mã lỗi và tiền tố `/api/v1` khớp `api-conventions.md` |
+| `03-design/` | ADR-001 đến 006 đã chấp nhận; `api-conventions.md` thêm 2 mã lỗi cho module auth |
+
+Ghi chú: US-E04 chỉ gắn FR-ENROLL-03; phần xem danh sách học viên (FR-ENROLL-04) là US-E05. Mã story trong sơ đồ minh hoạ ở phần hướng dẫn giai đoạn 2 chỉ mang tính minh hoạ; mã chính thức là mã trong tài liệu này.
 
 ## 9. Change log
 
 | Phiên bản | Ngày | Thay đổi |
 |---|---|---|
 | 0.1 | 09/10/2026 | Bản nháp đầu tiên: 41 story cho 5 epic, kiểm tra sức chứa, thứ tự thực hiện |
+| 0.2 | 09/10/2026 | Chuyển US-C06, US-S04, US-E06 sang Phase 2 (đổi FR nguồn thành FR-COURSE-06, FR-ASSIGN-07, FR-ENROLL-05); chốt #1 và #4; thêm AC cho quy tắc duyệt lại, giảng viên không đăng ký khoá của mình, khôi phục phiên khi tải lại trang; sửa AC US-S09 (bài chưa đến hạn không tính); bỏ trạng thái *Đã gỡ* khỏi Phase 1 |
