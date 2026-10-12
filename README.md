@@ -73,12 +73,3 @@ Mỗi bước nhỏ nên chạy được và commit riêng (Conventional Commits
 3. **Mỗi lần một bước nhỏ, chạy được.**
 4. **Tài liệu ngắn nhưng luôn đồng bộ với code**; code mâu thuẫn tài liệu thì cập nhật ngay.
 5. **Làm xong rồi mới tối ưu:** đúng trước, sạch sau, nhanh sau cùng.
-
-## Bạn đang ở đâu trong quy trình này?
-
-Dự án LMS của bạn đã có tài liệu module auth (đoạn giữa giai đoạn 2 và 3). Phần còn thiếu so với quy trình là:
-- **PRD chung của cả dự án** (giai đoạn 1) và danh sách module kèm thứ tự (giai đoạn 2)
-- **ERD tổng quan** (giai đoạn 3)
-- **Khởi tạo project** (giai đoạn 4)
-
-**Bước tiếp theo đề xuất:** soạn PRD dự án LMS 1-2 trang và danh sách module theo thứ tự ưu tiên, vì đó là nền để chốt phạm vi MVP. Bạn đã có PRD chung chưa? Nếu chưa, mình sẽ hỏi bạn tối đa 3 câu về phạm vi rồi soạn luôn.
